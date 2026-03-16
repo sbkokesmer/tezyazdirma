@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { ArrowRight, Clock, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, Clock } from 'lucide-react'
 import { THESIS_TYPES, FIELDS, EXTRAS, calculatePrice } from '../data/pricing'
 import OrderModal from './OrderModal'
 
@@ -41,14 +41,14 @@ export default function PriceCalculator() {
     <section id="fiyat" className="py-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/15 text-violet-300 text-xs font-semibold uppercase tracking-wider mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-md bg-primary/10 border border-primary/15 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
             Fiyatlandirma
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold">
+          <h2 className="text-3xl md:text-4xl font-bold text-white">
             Tez Yazim <span className="gradient-text">Fiyat Hesaplama</span>
           </h2>
-          <p className="text-zinc-400 mt-3 max-w-md mx-auto">
-            Asagidaki formu doldurarak teziniz icin aninda fiyat teklifi alin.
+          <p className="text-slate-400 mt-3 max-w-md mx-auto">
+            Formu doldurarak teziniz icin aninda fiyat teklifi alin.
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export default function PriceCalculator() {
           <div className="space-y-6">
             {/* Tez Turu */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Tez Turu</label>
+              <label className="block text-sm font-semibold text-slate-300 mb-2">Tez Turu</label>
               <select
                 value={form.type}
                 onChange={e => setForm(prev => ({ ...prev, type: e.target.value }))}
@@ -71,30 +71,33 @@ export default function PriceCalculator() {
 
             {/* Dil */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Tez Dili</label>
+              <label className="block text-sm font-semibold text-slate-300 mb-2">Tez Dili</label>
               <div className="grid grid-cols-2 gap-3">
-                {['turkce', 'ingilizce'].map(lang => (
+                {[
+                  { value: 'turkce', label: 'Turkce' },
+                  { value: 'ingilizce', label: 'Ingilizce' },
+                ].map(lang => (
                   <label
-                    key={lang}
-                    className={`flex items-center gap-3 px-4 py-3.5 rounded-xl border cursor-pointer transition-all ${
-                      form.language === lang
-                        ? 'border-primary bg-violet-500/5'
+                    key={lang.value}
+                    className={`flex items-center gap-3 px-4 py-3.5 rounded-lg border cursor-pointer transition-all ${
+                      form.language === lang.value
+                        ? 'border-primary bg-primary/5'
                         : 'border-border bg-bg-card hover:border-border-light'
                     }`}
                   >
-                    <div className={`w-4.5 h-4.5 rounded-full border-2 flex items-center justify-center transition-all ${
-                      form.language === lang ? 'border-primary' : 'border-border-light'
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      form.language === lang.value ? 'border-primary' : 'border-slate-600'
                     }`}>
-                      {form.language === lang && (
+                      {form.language === lang.value && (
                         <div className="w-2 h-2 rounded-full bg-primary" />
                       )}
                     </div>
-                    <span className="text-sm font-medium">{lang === 'turkce' ? 'Turkce' : 'Ingilizce'}</span>
+                    <span className="text-sm font-medium text-slate-200">{lang.label}</span>
                     <input
                       type="radio"
                       name="lang"
-                      value={lang}
-                      checked={form.language === lang}
+                      value={lang.value}
+                      checked={form.language === lang.value}
                       onChange={e => setForm(prev => ({ ...prev, language: e.target.value }))}
                       className="sr-only"
                     />
@@ -105,7 +108,7 @@ export default function PriceCalculator() {
 
             {/* Alan */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Akademik Alan</label>
+              <label className="block text-sm font-semibold text-slate-300 mb-2">Akademik Alan</label>
               <select
                 value={form.field}
                 onChange={e => setForm(prev => ({ ...prev, field: e.target.value }))}
@@ -119,7 +122,7 @@ export default function PriceCalculator() {
 
             {/* Sayfa Sayisi */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Sayfa Sayisi</label>
+              <label className="block text-sm font-semibold text-slate-300 mb-2">Sayfa Sayisi</label>
               <input
                 type="range"
                 min={10}
@@ -131,36 +134,36 @@ export default function PriceCalculator() {
               <div className="flex justify-between mt-2">
                 <span className="text-base font-bold text-primary">{form.pages} sayfa</span>
                 {selectedType && (
-                  <span className="text-xs text-zinc-500">Onerilen: {selectedType.pages} sayfa</span>
+                  <span className="text-xs text-slate-500">Onerilen: {selectedType.pages} sayfa</span>
                 )}
               </div>
             </div>
 
             {/* Ek Hizmetler */}
             <div>
-              <label className="block text-sm font-semibold mb-2">Ek Hizmetler</label>
+              <label className="block text-sm font-semibold text-slate-300 mb-2">Ek Hizmetler</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {EXTRAS.map(extra => (
                   <label
                     key={extra.id}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-all ${
                       form.extras.includes(extra.id)
-                        ? 'border-primary bg-violet-500/5'
+                        ? 'border-primary bg-primary/5'
                         : 'border-border bg-bg-card hover:border-border-light'
                     }`}
                   >
-                    <div className={`w-4.5 h-4.5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                      form.extras.includes(extra.id) ? 'bg-primary border-primary' : 'border-border-light'
+                    <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 border-2 transition-all ${
+                      form.extras.includes(extra.id) ? 'bg-primary border-primary' : 'border-slate-600'
                     }`}>
                       {form.extras.includes(extra.id) && (
                         <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                          <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M2 6l3 3 5-5" stroke="#0a0f1a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
                     </div>
                     <div>
-                      <div className="text-sm font-semibold leading-tight">{extra.label}</div>
-                      <div className="text-xs text-zinc-500">{extra.desc}</div>
+                      <div className="text-sm font-semibold text-slate-200 leading-tight">{extra.label}</div>
+                      <div className="text-xs text-slate-500">{extra.desc}</div>
                     </div>
                     <input
                       type="checkbox"
@@ -173,14 +176,12 @@ export default function PriceCalculator() {
               </div>
             </div>
 
-            {/* Hesapla button */}
             <button
               onClick={handleCalculate}
               disabled={!form.type || !form.field}
-              className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white
-                bg-gradient-to-r from-violet-500 to-pink-500 shadow-lg shadow-violet-500/25
-                hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 transition-all
-                disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-lg text-base font-semibold
+                bg-primary text-slate-900 hover:bg-primary-hover transition-all shadow-lg shadow-primary/20
+                disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none cursor-pointer"
             >
               Fiyat Hesapla
               <ArrowRight size={18} />
@@ -188,33 +189,34 @@ export default function PriceCalculator() {
           </div>
 
           {/* Result panel */}
-          <div className="bg-bg-card border border-border rounded-2xl p-8 flex flex-col justify-center items-center min-h-[420px] lg:sticky lg:top-24">
+          <div className="bg-bg-card border border-border rounded-xl p-8 flex flex-col justify-center items-center min-h-[420px] lg:sticky lg:top-24">
             {!showResult || !result ? (
-              <div className="text-center text-zinc-600">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mx-auto mb-4 opacity-40">
-                  <path d="M9 7h6M9 11h6M9 15h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/>
-                </svg>
-                <p className="text-sm text-zinc-500">Formu doldurup &quot;Fiyat Hesapla&quot; butonuna tiklayin</p>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-xl bg-border/50 flex items-center justify-center mx-auto mb-4">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-slate-600">
+                    <path d="M9 7h6M9 11h6M9 15h4M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/>
+                  </svg>
+                </div>
+                <p className="text-sm text-slate-500">Formu doldurup &quot;Fiyat Hesapla&quot;<br />butonuna tiklayin</p>
               </div>
             ) : (
-              <div className="w-full space-y-6">
-                {/* Header */}
+              <div className="w-full space-y-5">
                 <div>
-                  <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-2">
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-900/30 border border-emerald-800/30 text-emerald-400 text-xs font-semibold mb-2">
                     Fiyat Teklifi
                   </span>
-                  <h3 className="text-xl font-bold">{result.typeName}</h3>
+                  <h3 className="text-xl font-bold text-white">{result.typeName}</h3>
                 </div>
 
                 {/* Price */}
-                <div className="bg-violet-500/5 border border-violet-500/15 rounded-xl p-6 text-center">
-                  <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Toplam Fiyat</div>
+                <div className="bg-primary/5 border border-primary/15 rounded-lg p-6 text-center">
+                  <div className="text-xs text-slate-500 uppercase tracking-wider mb-1">Toplam Fiyat</div>
                   <div className="text-4xl font-black gradient-text">{formatPrice(result.total)}</div>
-                  <div className="text-sm text-zinc-400 mt-1">sayfa basi {formatPrice(result.perPage)}</div>
+                  <div className="text-sm text-slate-400 mt-1">sayfa basi {formatPrice(result.perPage)}</div>
                 </div>
 
                 {/* Details */}
-                <div className="space-y-2">
+                <div className="space-y-0">
                   {[
                     ['Tez Turu', result.typeName],
                     ['Dil', form.language === 'turkce' ? 'Turkce' : 'Ingilizce'],
@@ -224,31 +226,29 @@ export default function PriceCalculator() {
                     ...(result.extrasTotal > 0 ? [['Ek Hizmetler', `+${formatPrice(result.extrasTotal)}`]] : []),
                     ...(result.rushFee > 0 ? [['Acil Teslimat (%40)', `+${formatPrice(result.rushFee)}`]] : []),
                   ].map(([label, value]) => (
-                    <div key={label} className="flex justify-between text-sm py-1.5 border-b border-border last:border-0">
-                      <span className="text-zinc-400">{label}</span>
-                      <span className="font-semibold">{value}</span>
+                    <div key={label} className="flex justify-between text-sm py-2 border-b border-border last:border-0">
+                      <span className="text-slate-400">{label}</span>
+                      <span className="font-semibold text-slate-200">{value}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Timeline */}
-                <div className="flex items-center gap-2 px-4 py-3 bg-blue-500/5 border border-blue-500/15 rounded-xl text-blue-400 text-sm">
+                <div className="flex items-center gap-2 px-4 py-3 bg-blue-950/30 border border-blue-900/30 rounded-lg text-blue-300 text-sm">
                   <Clock size={16} />
                   <span>Tahmini teslimat: <strong>{result.deliveryDays} is gunu</strong></span>
                 </div>
 
-                {/* Order button */}
                 <button
                   onClick={() => setModalOpen(true)}
-                  className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white cursor-pointer
-                    bg-gradient-to-r from-violet-500 to-pink-500 shadow-lg shadow-violet-500/25
-                    hover:-translate-y-0.5 hover:shadow-xl transition-all"
+                  className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-lg text-base font-semibold cursor-pointer
+                    bg-primary text-slate-900 hover:bg-primary-hover transition-all shadow-lg shadow-primary/20"
                 >
                   Siparis Ver
                   <ArrowRight size={18} />
                 </button>
 
-                <p className="text-[11px] text-zinc-600 text-center">
+                <p className="text-[11px] text-slate-600 text-center">
                   * Fiyatlar tahminidir, kesin fiyat konu detayina gore degisebilir.
                 </p>
               </div>

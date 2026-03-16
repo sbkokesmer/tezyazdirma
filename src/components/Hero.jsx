@@ -1,31 +1,36 @@
-import { ArrowRight, Shield, Clock, Users } from 'lucide-react'
+import { ArrowRight, Shield, CheckCircle, BookOpen } from 'lucide-react'
 
-const STATS = [
-  { icon: Shield, value: '2.500+', label: 'Tamamlanan Tez' },
-  { icon: Users, value: '98%', label: 'Musteri Memnuniyeti' },
-  { icon: Clock, value: '150+', label: 'Uzman Akademisyen' },
+const FEATURES = [
+  'Turnitin Raporlu',
+  'Sinirsiz Revizyon',
+  'Gizlilik Garantisi',
 ]
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden">
-      {/* Background blobs */}
+      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-48 -right-24 w-[600px] h-[600px] rounded-full bg-violet-600/15 blur-[120px] animate-float" />
-        <div className="absolute -bottom-24 -left-24 w-[400px] h-[400px] rounded-full bg-pink-500/12 blur-[100px] animate-float-reverse" />
-        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] rounded-full bg-indigo-500/10 blur-[80px] animate-float-slow" />
+        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px] animate-float" />
+        <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-emerald-800/10 blur-[100px] animate-float-reverse" />
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
+        />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="max-w-2xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-sm font-semibold mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-8">
             <Shield size={14} />
-            %100 Orijinal &bull; Turnitin Raporlu
+            %100 Orijinal Akademik Calisma
           </div>
 
-          {/* Heading */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-white" style={{ fontFamily: 'var(--font-display)' }}>
             Akademik Basariniz
             <br />
             Icin <span className="gradient-text">Profesyonel</span>
@@ -33,42 +38,49 @@ export default function Hero() {
             Tez Destegi
           </h1>
 
-          <p className="mt-6 text-lg text-zinc-400 max-w-xl leading-relaxed">
-            Alaninda uzman akademisyenlerle, lisanstan doktoraya kadar her seviyede tez yazim hizmeti. Zamaninda teslimat, sinirsiz revizyon garantisi.
+          <p className="mt-6 text-lg text-slate-400 max-w-xl leading-relaxed">
+            Alaninda uzman akademisyenlerle, lisanstan doktoraya kadar her seviyede tez yazim hizmeti. Zamaninda teslimat, titiz akademik standartlar.
           </p>
+
+          {/* Feature chips */}
+          <div className="flex flex-wrap gap-3 mt-8">
+            {FEATURES.map(f => (
+              <div key={f} className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-emerald-900/20 border border-emerald-800/30 text-emerald-400 text-xs font-medium">
+                <CheckCircle size={12} />
+                {f}
+              </div>
+            ))}
+          </div>
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-4 mt-10">
             <a
               href="#fiyat"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white no-underline
-                bg-gradient-to-r from-violet-500 to-pink-500 shadow-lg shadow-violet-500/25
-                hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30 transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base font-semibold no-underline
+                bg-primary text-slate-900 hover:bg-primary-hover transition-all shadow-lg shadow-primary/20"
             >
               Fiyat Hesapla
               <ArrowRight size={18} />
             </a>
             <a
               href="#nasil-calisir"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-zinc-50 no-underline
-                bg-transparent border border-border-light hover:bg-bg-card hover:border-zinc-500 transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base font-semibold text-slate-200 no-underline
+                bg-transparent border border-border hover:bg-bg-card hover:border-border-light transition-all"
             >
               Nasil Calisir?
             </a>
           </div>
 
           {/* Stats */}
-          <div className="flex flex-wrap items-center gap-8 mt-16">
-            {STATS.map((stat, i) => (
-              <div key={stat.label} className="flex items-center gap-3">
-                {i > 0 && <div className="hidden sm:block w-px h-10 bg-border -ml-4 mr-0" />}
-                <div className="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400">
-                  <stat.icon size={18} />
-                </div>
-                <div>
-                  <div className="text-xl font-bold gradient-text">{stat.value}</div>
-                  <div className="text-xs text-zinc-500">{stat.label}</div>
-                </div>
+          <div className="grid grid-cols-3 gap-6 mt-16 max-w-md">
+            {[
+              { value: '2.500+', label: 'Tamamlanan Tez' },
+              { value: '%98', label: 'Memnuniyet' },
+              { value: '150+', label: 'Akademisyen' },
+            ].map(stat => (
+              <div key={stat.label} className="text-center">
+                <div className="text-2xl font-bold gradient-text">{stat.value}</div>
+                <div className="text-xs text-slate-500 mt-1">{stat.label}</div>
               </div>
             ))}
           </div>
